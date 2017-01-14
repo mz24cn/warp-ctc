@@ -5,6 +5,16 @@
 
 #pragma once
 
+#ifdef _MSC_VER
+	#ifdef CTCDLLEXPORT
+	#define CTC_DLL __declspec(dllexport)
+	#else
+	#define CTC_DLL __declspec(dllimport)
+	#endif
+#else
+	#define CTC_DLL
+#endif
+
 #ifdef __cplusplus
 #include <cstddef>
 extern "C" {
@@ -22,7 +32,7 @@ typedef enum {
 } ctcStatus_t;
 
 /** Returns a single integer which specifies the API version of the warpctc library */
-int get_warpctc_version();
+int CTC_DLL get_warpctc_version();
 
 /** Returns a string containing a description of status that was passed in
  *  \param[in] status identifies which string should be returned
@@ -91,7 +101,7 @@ struct ctcOptions {
  *  \return Status information
  *
  * */
-ctcStatus_t compute_ctc_loss(const float* const activations,
+ctcStatus_t CTC_DLL compute_ctc_loss(const float* const activations,
                              float* gradients,
                              const int* const flat_labels,
                              const int* const label_lengths,
@@ -120,11 +130,19 @@ ctcStatus_t compute_ctc_loss(const float* const activations,
  *
  *  \return Status information
  **/
-ctcStatus_t get_workspace_size(const int* const label_lengths,
+ctcStatus_t CTC_DLL get_workspace_size(const int* const label_lengths,
                                const int* const input_lengths,
                                int alphabet_size, int minibatch,
                                ctcOptions info,
                                size_t* size_bytes);
+
+#ifdef __CUDACC__
+ctcStatus_t CTC_DLL reduce_negate(const float *input, float *output, int rows, int cols, bool axis, cudaStream_t stream);
+
+ctcStatus_t CTC_DLL reduce_exp(const float *input, float *output, int rows, int cols, bool axis, cudaStream_t stream);
+
+ctcStatus_t CTC_DLL reduce_max(const float *input, float *output, int rows, int cols, bool axis, cudaStream_t stream);
+#endif
 
 #ifdef __cplusplus
 }

@@ -2,6 +2,7 @@
 
 #include <stdexcept>
 #include <vector>
+#include <algorithm>
 #include <random>
 
 #include <ctc.h>

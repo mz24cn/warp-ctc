@@ -28,11 +28,16 @@ if(NOT WITH_OMP)
 endif()
 
 # need to be at least 30 or __shfl_down in reduce wont compile
-set(CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS} -gencode arch=compute_30,code=sm_30 -O2")
-set(CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS} -gencode arch=compute_35,code=sm_35")
-
+IF (!_DEBUG)
+set(CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS} -O2")
+ENDIF()
 set(CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS} -gencode arch=compute_50,code=sm_50")
 set(CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS} -gencode arch=compute_52,code=sm_52")
+set(CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS} -gencode arch=compute_53,code=sm_53")  
+  
+set(CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS} -gencode arch=compute_60,code=sm_60")  
+set(CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS} -gencode arch=compute_61,code=sm_61")  
+set(CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS} -gencode arch=compute_62,code=sm_62")
 
 if (NOT APPLE)
     set(CUDA_NVCC_FLAGS "${CUDA_NVCC_FLAGS} --std=c++11")
@@ -69,11 +74,11 @@ IF (WITH_GPU)
         TARGET_LINK_LIBRARIES(warpctc ${CUDA_curand_LIBRARY})
     ENDIF()
 
-    add_executable(test_cpu tests/test_cpu.cpp )
+    add_executable(test_cpu tests/test_cpu.cpp tests/ctc_status_string.cpp)
     TARGET_LINK_LIBRARIES(test_cpu warpctc)
     SET_TARGET_PROPERTIES(test_cpu PROPERTIES COMPILE_FLAGS "${CMAKE_CXX_FLAGS} --std=c++11")
 
-    cuda_add_executable(test_gpu tests/test_gpu.cu)
+    cuda_add_executable(test_gpu tests/test_gpu.cu tests/ctc_status_string.cu)
     TARGET_LINK_LIBRARIES(test_gpu warpctc ${CUDA_curand_LIBRARY})
 
     INSTALL(TARGETS warpctc
