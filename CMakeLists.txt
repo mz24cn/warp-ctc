@@ -64,7 +64,7 @@ ELSE()
     set(CMAKE_SKIP_RPATH TRUE)
 ENDIF()
 
-
+add_definitions(-DCTCDLLEXPORT)
 IF (WITH_GPU)
 
     MESSAGE(STATUS "Building shared library with GPU support")
@@ -74,11 +74,11 @@ IF (WITH_GPU)
         TARGET_LINK_LIBRARIES(warpctc ${CUDA_curand_LIBRARY})
     ENDIF()
 
-    add_executable(test_cpu tests/test_cpu.cpp tests/ctc_status_string.cpp)
+    add_executable(test_cpu tests/test_cpu.cpp)
     TARGET_LINK_LIBRARIES(test_cpu warpctc)
     SET_TARGET_PROPERTIES(test_cpu PROPERTIES COMPILE_FLAGS "${CMAKE_CXX_FLAGS} --std=c++11")
 
-    cuda_add_executable(test_gpu tests/test_gpu.cu tests/ctc_status_string.cu)
+    cuda_add_executable(test_gpu tests/test_gpu.cu)
     TARGET_LINK_LIBRARIES(test_gpu warpctc ${CUDA_curand_LIBRARY})
 
     INSTALL(TARGETS warpctc
