@@ -7,7 +7,10 @@ ENDIF()
 project(ctc_release)
 
 IF (NOT APPLE)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp -O2")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp")
+ENDIF()
+IF (!_DEBUG)
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2")
 ENDIF()
 
 IF (APPLE)
@@ -116,8 +119,11 @@ ELSE()
     MESSAGE(STATUS "Building shared library with no GPU support")
 
     if (NOT APPLE)
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O2")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
     ENDIF()
+	IF (!_DEBUG)
+		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O2")
+	ENDIF()
 
     ADD_LIBRARY(warpctc SHARED src/ctc_entrypoint.cpp)
 
