@@ -4,6 +4,8 @@
 
 Fork from  [mz24cn's windows version](https://github.com/mz24cn/warp-ctc), add pytorch binding from [SeanNaren's ](https://github.com/SeanNaren/warp-ctc), modify some error in build in window.
 
+If 'Dll Load Failed' error occur, copy the generated warpctc.dll and copy caffe2_gpu.dll, caffe2.dll from torch directory, paste to the installation directory.
+
 # warp-ctc
 
 A fast parallel implementation of CTC, on both CPU and GPU.
