@@ -2,6 +2,8 @@
 
 [In Chinese 中文版](README.zh_cn.md)
 
+Fork from mz24cn's windows version [https://github.com/mz24cn/warp-ctc], add pytorch binding from SeanNaren's [https://github.com/SeanNaren/warp-ctc], modify some error in build in window.
+
 # warp-ctc
 
 A fast parallel implementation of CTC, on both CPU and GPU.
