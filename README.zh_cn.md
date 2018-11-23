@@ -10,6 +10,33 @@ Fork [mz24cn's windows version](https://github.com/mz24cn/warp-ctc), 添加pytor
 
 如果出现DLL Load Failed错误，请拷贝如下dll，warpctc.dll, caffe2_gpu.dll, caffe2.dll 到安装目录下
 
+
+# 使用VS进行编译，以VS 2017为例
+```cmd
+git clone https://github.com/amberblade/warp-ctc
+cd warp-ctc
+mkdir build; 
+cd build
+cmake -G "Visual Studio 15 2017 Win64" ..
+```
+
+进到build目录，打开sln文件进行编译，生成dll文件
+
+然后安装python extension:
+```cmd
+cd pytorch_binding
+python setup.py install
+```
+
+然后尝试load 模块，如果碰到 "DLL Load Failed" 错误, 拷贝dll到 warp-cc*.pyd(__warp_ctc.cp36-win_amd64) 所在的目录:
+```cmd
+cd ../pytorch_binding
+python setup.py install
+cd ../build
+cp warpctc.dll /path/to/your/warp-ctc/installed
+# find your caffe2_gpu.dll and caffe2.dll, and copy to /path/to/your/warp-ctc/installed
+```
+
 介绍
 CTC[Connectionist Temporal Classification](http://www.cs.toronto.edu/~graves/icml_2006.pdf)作为一个损失函数，用于在序列数据上进行监督式学习，不需要对齐输入数据及标签。比如，CTC可以被用来训练端对端的语音识别系统，这正是我们在百度硅谷试验室所使用的方法。
 [端到端](http://www.jmlr.org/proceedings/papers/v32/graves14.pdf)

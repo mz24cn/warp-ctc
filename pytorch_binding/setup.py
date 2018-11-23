@@ -17,10 +17,7 @@ else:
     print("Torch was not built with CUDA support, not building warp-ctc GPU extensions.")
     enable_gpu = False
 
-if platform.system() == 'Darwin':
-    lib_ext = ".dylib"
-else:
-    lib_ext = ".dll"
+lib_ext = ".dll"
 
 headers = ['src/cpu_binding.h']
 
@@ -28,12 +25,10 @@ if enable_gpu:
     extra_compile_args += ['-DWARPCTC_ENABLE_GPU']
     headers += ['src/gpu_binding.h']
 
-if "WARP_CTC_PATH" in os.environ:
-    warp_ctc_path = os.environ["WARP_CTC_PATH"]
 if not os.path.exists(os.path.join(warp_ctc_path, "warpctc" + lib_ext)):
     print(("Could not find libwarpctc.so in {}.\n"
            "Build warp-ctc and set WARP_CTC_PATH to the location of"
-           " libwarpctc.so (default is '../build')").format(warp_ctc_path))
+           " warpctc.dll (default is '../build/release')").format(warp_ctc_path))
     sys.exit(1)
 include_dirs = [os.path.realpath('../include')]
 
