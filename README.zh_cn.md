@@ -5,6 +5,7 @@
 # warp-ctc
 
 Warp-CTC是一个可以应用在CPU和GPU上高效并行的CTC代码库 （library）
+Fork mz24cn's windows version [https://github.com/mz24cn/warp-ctc], 添加pytorch bindingm, 代码源自于 SeanNaren's [https://github.com/SeanNaren/warp-ctc], 修改了少许在windows下面导致的错误.
 介绍
 CTC[Connectionist Temporal Classification](http://www.cs.toronto.edu/~graves/icml_2006.pdf)作为一个损失函数，用于在序列数据上进行监督式学习，不需要对齐输入数据及标签。比如，CTC可以被用来训练端对端的语音识别系统，这正是我们在百度硅谷试验室所使用的方法。
 [端到端](http://www.jmlr.org/proceedings/papers/v32/graves14.pdf)
